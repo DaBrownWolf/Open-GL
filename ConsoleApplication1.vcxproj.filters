@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="shape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="interp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rgbcolor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="getopt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="testClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="shape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="interp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rgbcolor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CMPS109\ASG5\unistd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CMPS109\ASG5\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Downloads\getopt_mb_uni_vc6 (1)\getopt_mb_uni_vc6\getopt_mb_uni_vc6_dll\getopt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="util.tcc" />
+    <None Include="colors.cppgen" />
+    <None Include="gdraw" />
+    <None Include="HEADER.html" />
+    <None Include="Listing.colors.cppgen.pdf" />
+    <None Include="Listing.colors.cppgen.ps" />
+    <None Include="Listing.pdf" />
+    <None Include="Listing.ps" />
+    <None Include="Listing.rgb.txt.pdf" />
+    <None Include="Listing.rgb.txt.ps" />
+    <None Include="Makefile" />
+    <None Include="Makefile.dep" />
+    <None Include="mk-colors.perl" />
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
