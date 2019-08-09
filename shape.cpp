@@ -60,9 +60,21 @@ rectangle::rectangle(GLfloat width, GLfloat height) :
 square::square(GLfloat width) : rectangle(width, width) {}
 
 void text::draw(const vertex& center, const rgbcolor& color) const {
-    for (char c : textdata) {
-        glutStrokeCharacter(glut_bitmap_font, c);
-    }
+    //for (char c : textdata) {
+    //    
+    //    glutBitmapCharacter(glut_bitmap_font, c);
+    //}
+    const GLubyte* glgreeting =
+        reinterpret_cast<const GLubyte*> (textdata.c_str());
+
+    int greeting_width = glutBitmapLength(glut_bitmap_font, glgreeting);
+    int greeting_height = glutBitmapHeight(glut_bitmap_font);
+    GLubyte c = color.ubvec[0];
+    glColor3f(color.ubvec[0], color.ubvec[1], color.ubvec[2]);
+
+    glRasterPos2f(center.xpos, center.ypos);
+
+    glutBitmapString(glut_bitmap_font, glgreeting);
 }
 
 void ellipse::draw(const vertex& center, const rgbcolor& color) const {
