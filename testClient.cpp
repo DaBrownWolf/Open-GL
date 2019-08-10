@@ -170,12 +170,12 @@ int main(int argc, char** argv) {
     sys_info::execname(argv[0]);
     interpreter::shape_map shapemap;
     interpreter interp;
-    string line = "define e1 circle 40";
+    string line = "define r1 rectangle 50 65";
     interpreter::parameters words = split(line, " \t");
     if (words.size() == 0 or words.front()[0] == '#') return 0;
     interp.interpret(words);
 
-    line = "draw red e1 100 100";
+    line = "draw red r1 90 90";
     words = split(line, " \t");
     if (words.size() == 0 or words.front()[0] == '#') return 0;
     interp.interpret(words);

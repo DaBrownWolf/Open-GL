@@ -98,7 +98,9 @@ shape_ptr interpreter::make_polygon(param begin, param end) {
 }
 
 shape_ptr interpreter::make_rectangle(param begin, param end) {
-    return make_shared<rectangle>(GLfloat(), GLfloat());
+    GLfloat width = stof(*begin);
+    GLfloat height = stof(*(end - 1));
+    return make_shared<rectangle>(width, height);
 }
 
 shape_ptr interpreter::make_square(param begin, param end) {

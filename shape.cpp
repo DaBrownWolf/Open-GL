@@ -65,7 +65,7 @@ polygon::polygon(const vertex_list& vertices_) : vertices(vertices_) {
 }
 
 rectangle::rectangle(GLfloat width, GLfloat height) :
-    polygon({}) {
+    polygon({{0, 0}, {width, 0}, {width, height}, {0, height}}) {
 }
 
 square::square(GLfloat width) : rectangle(width, width) {}
@@ -82,10 +82,6 @@ void ellipse::draw(const vertex& center, const rgbcolor& color) const {
     glBegin(GL_POLYGON);
     glColor3f(color.ubvec[0], color.ubvec[1], color.ubvec[2]);
     const GLfloat delta = 2 * M_PI / 64;
-    //const GLfloat radius = window.height * 3.0 / 10.0;
-    //const GLfloat radius = window.height * 3.0 / 10.0;
-    //const GLfloat xoffset = window.width / 2.0;
-    //const GLfloat yoffset = window.height / 2.0;
     for (GLfloat theta = 0; theta < 2 * M_PI; theta += delta) {
         GLfloat xpos = dimension.xpos * cos(theta) + center.xpos;
         GLfloat ypos = dimension.ypos * sin(theta) + center.ypos;
@@ -95,7 +91,14 @@ void ellipse::draw(const vertex& center, const rgbcolor& color) const {
 }
 
 void polygon::draw(const vertex& center, const rgbcolor& color) const {
-    //DEBUGF ('d', this << "(" << center << "," << color << ")");
+    glBegin(GL_POLYGON);
+    glColor3f(color.ubvec[0], color.ubvec[1], color.ubvec[2]);
+    for(auto i : vertices) {
+        GLfloat xpos = center.xpos + i.xpos;
+        GLfloat ypos = center.ypos + i.ypos;
+        glVertex2f(xpos, ypos);
+    }
+    glEnd();
 }
 
 void shape::show(ostream& out) const {
