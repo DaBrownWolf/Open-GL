@@ -1,7 +1,11 @@
 // $Id: shape.cpp,v 1.2 2019-02-28 15:24:20-08 - - $
-
+#ifdef _WIN32
+#define _CRT_SECURE_NO_WARNINGS
+#define _USE_MATH_DEFINES
+#endif
 #include <typeinfo>
 #include <unordered_map>
+#include <math.h>
 using namespace std;
 
 #include "shape.h"
@@ -38,6 +42,13 @@ shape::shape() {
 
 text::text(void* glut_bitmap_font_, const string& textdata_) :
     glut_bitmap_font(glut_bitmap_font_), textdata(textdata_) {
+    size_t txtLen = strlen(textdata_.c_str());
+    char textArr[1000];
+    strcpy(textArr, textdata.c_str());
+    string fontStr = strtok(textArr, " ");
+    auto i = textdata.find(" ");
+    textdata = textdata.substr(i);
+    glut_bitmap_font = fontcode[fontStr];
 }
 
 ellipse::ellipse(GLfloat width, GLfloat height) :
@@ -60,25 +71,27 @@ rectangle::rectangle(GLfloat width, GLfloat height) :
 square::square(GLfloat width) : rectangle(width, width) {}
 
 void text::draw(const vertex& center, const rgbcolor& color) const {
-    //for (char c : textdata) {
-    //    
-    //    glutBitmapCharacter(glut_bitmap_font, c);
-    //}
     const GLubyte* glgreeting =
         reinterpret_cast<const GLubyte*> (textdata.c_str());
-
-    int greeting_width = glutBitmapLength(glut_bitmap_font, glgreeting);
-    int greeting_height = glutBitmapHeight(glut_bitmap_font);
-    GLubyte c = color.ubvec[0];
     glColor3f(color.ubvec[0], color.ubvec[1], color.ubvec[2]);
-
     glRasterPos2f(center.xpos, center.ypos);
-
     glutBitmapString(glut_bitmap_font, glgreeting);
 }
 
 void ellipse::draw(const vertex& center, const rgbcolor& color) const {
-    //DEBUGF ('d', this << "(" << center << "," << color << ")");
+    glBegin(GL_POLYGON);
+    glColor3f(color.ubvec[0], color.ubvec[1], color.ubvec[2]);
+    const GLfloat delta = 2 * M_PI / 64;
+    //const GLfloat radius = window.height * 3.0 / 10.0;
+    //const GLfloat radius = window.height * 3.0 / 10.0;
+    //const GLfloat xoffset = window.width / 2.0;
+    //const GLfloat yoffset = window.height / 2.0;
+    for (GLfloat theta = 0; theta < 2 * M_PI; theta += delta) {
+        GLfloat xpos = dimension.xpos * cos(theta) + center.xpos;
+        GLfloat ypos = dimension.ypos * sin(theta) + center.ypos;
+        glVertex2f(xpos, ypos);
+    }
+    glEnd();
 }
 
 void polygon::draw(const vertex& center, const rgbcolor& color) const {

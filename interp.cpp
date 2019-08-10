@@ -76,15 +76,21 @@ shape_ptr interpreter::make_shape(param begin, param end) {
 }
 
 shape_ptr interpreter::make_text(param begin, param end) {
-    return make_shared<text>(nullptr, string());
+    string textData = *begin;
+    textData.append(" ");
+    textData.append(*(end - 1));
+    return make_shared<text>(&begin, textData);
 }
 
 shape_ptr interpreter::make_ellipse(param begin, param end) {
-    return make_shared<ellipse>(GLfloat(), GLfloat());
+    GLfloat width = stof(*begin);
+    GLfloat height = stof(*(end - 1));
+    return make_shared<ellipse>(width, height);
 }
 
 shape_ptr interpreter::make_circle(param begin, param end) {
-    return make_shared<circle>(GLfloat());
+    GLfloat radius = stof(*begin);
+    return make_shared<circle>(radius);
 }
 
 shape_ptr interpreter::make_polygon(param begin, param end) {

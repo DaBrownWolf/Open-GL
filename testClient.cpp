@@ -13,6 +13,7 @@ using namespace std;
 #include "getopt.h"
 #include "graphics.h"
 #include "util.h"
+#include "interp.h"
 
 // Characteristics of the window.
 struct window window;
@@ -167,18 +168,17 @@ To quit: key 'q' or 'Q' or ESC.
 int main(int argc, char** argv) {
     print_howto();
     sys_info::execname(argv[0]);
-    //glutInit(&argc, argv);
-    //glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
-    //glutInitWindowSize(window.width, window.height);
-    //glutCreateWindow(window.name.c_str());
-    //glutDisplayFunc(display);
-    //glutReshapeFunc(reshape);
-    //glutKeyboardFunc(keyboard);
-    //glutMouseFunc(mouse);
-    //glutMainLoop();
-    text t(GLUT_BITMAP_HELVETICA_10, "Testing");
-    //Make an object out of the text
-    //window.push_back(t);
+    interpreter::shape_map shapemap;
+    interpreter interp;
+    string line = "define e1 circle 40";
+    interpreter::parameters words = split(line, " \t");
+    if (words.size() == 0 or words.front()[0] == '#') return 0;
+    interp.interpret(words);
+
+    line = "draw red e1 100 100";
+    words = split(line, " \t");
+    if (words.size() == 0 or words.front()[0] == '#') return 0;
+    interp.interpret(words);
     window.main();
     return 0;
 }
