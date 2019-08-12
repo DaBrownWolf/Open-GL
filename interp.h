@@ -43,6 +43,7 @@ class interpreter {
       static shape_ptr make_rectangle (param begin, param end);
       static shape_ptr make_square (param begin, param end);
       static shape_ptr make_line (param begin, param end);
+      static shape_ptr make_eq(param begin, param end);
 };
 
 #endif

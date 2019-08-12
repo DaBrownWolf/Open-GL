@@ -170,7 +170,7 @@ int main(int argc, char** argv) {
     sys_info::execname(argv[0]);
     interpreter::shape_map shapemap;
     interpreter interp;
-    string line = "define r1 rectangle 50 65";
+    string line = "define r1 equilateral 50";
     interpreter::parameters words = split(line, " \t");
     if (words.size() == 0 or words.front()[0] == '#') return 0;
     interp.interpret(words);

@@ -26,6 +26,8 @@ interpreter::factory_map{
    {"polygon"  , &interpreter::make_polygon  },
    {"rectangle", &interpreter::make_rectangle},
    {"square"   , &interpreter::make_square   },
+   {"triangle" , &interpreter::make_polygon  },
+   {"equilateral", &interpreter::make_eq     }
 };
 
 interpreter::shape_map interpreter::objmap;
@@ -94,7 +96,13 @@ shape_ptr interpreter::make_circle(param begin, param end) {
 }
 
 shape_ptr interpreter::make_polygon(param begin, param end) {
-    return make_shared<polygon>(vertex_list());
+    vertex_list vList;
+    for (auto i = begin; i != end; i += 2) {
+        GLfloat xpos = stof(*i);
+        GLfloat ypos = stof(*(i + 1));
+        vList.push_back({ xpos, ypos });
+    }
+    return make_shared<polygon>(vList);
 }
 
 shape_ptr interpreter::make_rectangle(param begin, param end) {
@@ -104,6 +112,13 @@ shape_ptr interpreter::make_rectangle(param begin, param end) {
 }
 
 shape_ptr interpreter::make_square(param begin, param end) {
-    return make_shared<square>(GLfloat());
+    return make_shared<square>(stof(*begin));
 }
 
+shape_ptr interpreter::make_eq(param begin, param end) {
+    vertex_list vList;
+    vList.push_back({stof(*begin), 0});
+    vList.push_back({stof(*begin), stof(*begin)});
+    vList.push_back({0, stof(*begin)});
+    return make_shared<polygon>(vList);
+}
