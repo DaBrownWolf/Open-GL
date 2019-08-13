@@ -65,7 +65,7 @@ polygon::polygon(const vertex_list& vertices_) : vertices(vertices_) {
 }
 
 rectangle::rectangle(GLfloat width, GLfloat height) :
-    polygon({{0, 0}, {width, 0}, {width, height}, {0, height}}) {
+    polygon({{-width/2, -height/2}, {-width/2, height/2}, {width/2, height/2}, {width/2, -height/2}}) {
 }
 
 square::square(GLfloat width) : rectangle(width, width) {}
@@ -111,9 +111,27 @@ void text::show(ostream& out) const {
         << ") \"" << textdata << "\"";
 }
 
+void text::drawBorder(const vertex&, const rgbcolor&) const {}
+
 void ellipse::show(ostream& out) const {
     shape::show(out);
     out << "{" << dimension << "}";
+}
+
+void ellipse::drawBorder(const vertex& center, const rgbcolor& color) const {
+    glBegin(GL_LINE_LOOP);
+    GLubyte inv_r = 0xFF - color.ubvec[0];
+    GLubyte inv_g = 0xFF - color.ubvec[1];
+    GLubyte inv_b = 0xFF - color.ubvec[2];
+    glColor3f(inv_r, inv_g, inv_b);
+    glLineWidth(1);
+    const GLfloat delta = 2 * M_PI / 64;
+    for (GLfloat theta = 0; theta < 2 * M_PI; theta += delta) {
+        GLfloat xpos = dimension.xpos * cos(theta) + center.xpos;
+        GLfloat ypos = dimension.ypos * sin(theta) + center.ypos;
+        glVertex2f(xpos, ypos);
+    }
+    glEnd();
 }
 
 void polygon::show(ostream& out) const {
@@ -121,8 +139,27 @@ void polygon::show(ostream& out) const {
     out << "{" << vertices << "}";
 }
 
+void polygon::drawBorder(const vertex& center, const rgbcolor& color) const {
+    glBegin(GL_LINE_LOOP);
+    GLubyte inv_r = 0xFF - color.ubvec[0];
+    GLubyte inv_g = 0xFF - color.ubvec[1];
+    GLubyte inv_b = 0xFF - color.ubvec[2];
+    glColor3f(inv_r, inv_g, inv_b);    
+    glLineWidth(4);
+    for (auto i : vertices) {
+        GLfloat xpos = center.xpos + i.xpos;
+        GLfloat ypos = center.ypos + i.ypos;
+        glVertex2f(xpos, ypos);
+    }
+    glEnd();
+}
+
 ostream& operator<< (ostream& out, const shape& obj) {
     obj.show(out);
     return out;
 }
 
+diamond::diamond(const GLfloat width, const GLfloat height) : 
+polygon({{width/2, height/2}, {0, 0}, {width/2, -height/2}, {width, 0}, {}}) {
+
+}

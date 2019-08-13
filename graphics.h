@@ -21,6 +21,7 @@ public:
     object(shared_ptr<shape>, vertex, rgbcolor);
     void draw();
     void move(GLfloat delta_x, GLfloat delta_y);
+    void drawBorder();
 };
 
 class mouse {
@@ -57,6 +58,8 @@ private:
     static void motion(int x, int y);
     static void passivemotion(int x, int y);
     static void mousefn(int button, int state, int x, int y);
+    static void move_selected_object(GLfloat delta_x, GLfloat delta_y);
+    static void select_object(GLbyte key);
 public:
     static void push_back(const object& obj) {
         objects.push_back(obj);

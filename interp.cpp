@@ -27,6 +27,7 @@ interpreter::factory_map{
    {"rectangle", &interpreter::make_rectangle},
    {"square"   , &interpreter::make_square   },
    {"triangle" , &interpreter::make_polygon  },
+   {"diamond" ,  &interpreter::make_diamond  },
    {"equilateral", &interpreter::make_eq     }
 };
 
@@ -117,8 +118,15 @@ shape_ptr interpreter::make_square(param begin, param end) {
 
 shape_ptr interpreter::make_eq(param begin, param end) {
     vertex_list vList;
-    vList.push_back({stof(*begin), 0});
-    vList.push_back({stof(*begin), stof(*begin)});
-    vList.push_back({0, stof(*begin)});
+    vList.push_back({ stof(*begin), 0 });
+    vList.push_back({ stof(*begin), stof(*begin) });
+    vList.push_back({ 0, stof(*begin) });
     return make_shared<polygon>(vList);
+}
+
+shape_ptr interpreter::make_diamond(param begin, param end)
+{
+    GLfloat width = stof(*begin);
+    GLfloat height = stof(*(end - 1));
+    return make_shared<diamond>(width, height);
 }

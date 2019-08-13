@@ -34,12 +34,6 @@ struct cycle_iterator {
     }
 };
 
-cycle_iterator<string> greetings{
-   "Hello, World!",
-   "Hodie natus est radici frater.",
-   "Goodbye, World!",
-};
-
 GLubyte RED[] = { 0xFF, 0x00, 0x00 };
 GLubyte GREEN[] = { 0x00, 0xFF, 0x00 };
 GLubyte BLUE[] = { 0x00, 0x00, 0xFF };
@@ -50,20 +44,6 @@ cycle_iterator<void*> glut_fonts{
    GLUT_BITMAP_HELVETICA_18,
    GLUT_BITMAP_9_BY_15,
 };
-
-
-//void draw_rectangle(const GLubyte* color) {
-//    glBegin(GL_POLYGON);
-//    glColor3ubv(color);
-//    window.setheight(0);
-//    window.setwidth(0);
-//    window.main();
-//    //glVertex2f(0, 0);
-//    //glVertex2f(window.width, 0);
-//    //glVertex2f(window.width, window.height);
-//    //glVertex2f(0, window.height);
-//    glEnd();
-//}
 
 void draw_greeting(const string& greeting, const GLubyte* color) {
     const GLubyte* glgreeting =
@@ -85,17 +65,6 @@ void draw_greeting(const string& greeting, const GLubyte* color) {
     glutBitmapString(font, glgreeting);
 }
 
-void display() {
-    glClearColor(0.15, 0.15, 0.15, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    //draw_rectangle(colors[0]);
-    draw_greeting(*greetings, colors[2]);
-    text t(GLUT_BITMAP_HELVETICA_10, "Testing");
-
-    glutSwapBuffers();
-}
-
 
 void invert_colors() {
     for (size_t color = 0; color < 3; ++color) {
@@ -104,56 +73,6 @@ void invert_colors() {
         }
     }
 }
-
-void keyboard(GLubyte key, int, int) {
-    enum { BS = 8, LF = 10, CR = 13, ESC = 27, DEL = 127 };
-    switch (key) {
-    case ' ': case BS: case CR: case LF: case DEL:
-        invert_colors();
-        break;
-    case 'c': case 'C':
-        ++colors;
-        break;
-    case 'f': case 'F':
-        ++glut_fonts;
-        break;
-    case 'g': case 'G':
-        ++greetings;
-        break;
-    case 'q': case 'Q': case ESC:
-        exit(EXIT_SUCCESS);
-    }
-    glutPostRedisplay();
-}
-
-void mouse(int button, int state, int, int) {
-    if (state == GLUT_DOWN) {
-        switch (button) {
-        case GLUT_LEFT_BUTTON:
-            ++glut_fonts;
-            break;
-        case GLUT_MIDDLE_BUTTON:
-            ++greetings;
-            break;
-        case GLUT_RIGHT_BUTTON:
-            ++colors;
-            break;
-        }
-    }
-    glutPostRedisplay();
-}
-
-
-//void reshape(int width, int height) {
-//    window.width = width;
-//    window.height = height;
-//    glMatrixMode(GL_PROJECTION);
-//    glLoadIdentity();
-//    gluOrtho2D(0, window.width, 0, window.height);
-//    glMatrixMode(GL_MODELVIEW);
-//    glViewport(0, 0, window.width, window.height);
-//    glutPostRedisplay();
-//}
 
 void print_howto() {
     cout << R"(
@@ -170,8 +89,24 @@ int main(int argc, char** argv) {
     sys_info::execname(argv[0]);
     interpreter::shape_map shapemap;
     interpreter interp;
-    string line = "define r1 equilateral 50";
+
+    string line = "define t1 triangle 50 30 50 100 10 80";
     interpreter::parameters words = split(line, " \t");
+    if (words.size() == 0 or words.front()[0] == '#') return 0;
+    interp.interpret(words);
+
+    line = "define r1 rectangle 50 30";
+    words = split(line, " \t");
+    if (words.size() == 0 or words.front()[0] == '#') return 0;
+    interp.interpret(words);
+
+    line = "define p1 polygon 50 30 50 100 10 80 60 30";
+    words = split(line, " \t");
+    if (words.size() == 0 or words.front()[0] == '#') return 0;
+    interp.interpret(words);
+
+    line = "define d1 diamond 50 30";
+    words = split(line, " \t");
     if (words.size() == 0 or words.front()[0] == '#') return 0;
     interp.interpret(words);
 
@@ -179,6 +114,22 @@ int main(int argc, char** argv) {
     words = split(line, " \t");
     if (words.size() == 0 or words.front()[0] == '#') return 0;
     interp.interpret(words);
+
+    line = "draw red t1 30 90";
+    words = split(line, " \t");
+    if (words.size() == 0 or words.front()[0] == '#') return 0;
+    interp.interpret(words);
+
+    line = "draw red p1 90 40";
+    words = split(line, " \t");
+    if (words.size() == 0 or words.front()[0] == '#') return 0;
+    interp.interpret(words);
+
+    line = "draw red d1 70 40";
+    words = split(line, " \t");
+    if (words.size() == 0 or words.front()[0] == '#') return 0;
+    interp.interpret(words);
+
     window.main();
     return 0;
 }
